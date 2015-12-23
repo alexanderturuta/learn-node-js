@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2461823b-3a4f-4efa-bab7-40b9a468c705" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/db/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/db/ru.json" />
-      <change type="DELETED" beforePath="C:\Projects\LearnNodeJs\modules\user\ru.json" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/logger.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/user/index.js" afterPath="$PROJECT_DIR$/modules/user/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/server.js" afterPath="$PROJECT_DIR$/modules/server.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -42,7 +40,7 @@
         <entry file="file://$PROJECT_DIR$/modules/server.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -62,7 +60,7 @@
         <entry file="file://$PROJECT_DIR$/modules/user/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+              <caret line="2" column="34" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -78,11 +76,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ru.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ru.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/db/ru.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.08994709">
+            <state vertical-scroll-proportion="-1.9615384">
               <caret line="3" column="1" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="logger.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/modules/logger.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.14333895">
+              <caret line="5" column="41" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -110,6 +118,7 @@
         <option value="$PROJECT_DIR$/modules/db/index.js" />
         <option value="$PROJECT_DIR$/modules/db/ru.json" />
         <option value="$PROJECT_DIR$/modules/user/index.js" />
+        <option value="$PROJECT_DIR$/modules/logger.js" />
         <option value="$PROJECT_DIR$/modules/server.js" />
       </list>
     </option>
@@ -394,18 +403,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/user/index.js">
+    <entry file="file://$PROJECT_DIR$/modules/db/ru.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        <state vertical-scroll-proportion="-1.9615384">
+          <caret line="3" column="1" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -418,18 +419,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/server.js">
+    <entry file="file://$PROJECT_DIR$/modules/user/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <caret line="2" column="34" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/db/ru.json">
+    <entry file="file://$PROJECT_DIR$/modules/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.08994709">
-          <caret line="3" column="1" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/logger.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.14333895">
+          <caret line="5" column="41" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
           <folding />
         </state>
       </provider>
