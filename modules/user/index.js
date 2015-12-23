@@ -11,7 +11,8 @@ User.prototype.hello = function (who) {
 
 //...
 
-exports.User = User;
+module.exports = User;
+//exports = User; //!!does not work
 
 
 // global.User = User

@@ -1,4 +1,6 @@
-var User = require('./user').User;
+//module.exports = exports = this
+
+var User = require('./user');
 
 function run(){
     var vasya = new User('Вася');
