@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var url = require('url');
 
-var ROOT = __dirname + '/public';
+var ROOT = path.normalize(__dirname + '/public');
 
 http.createServer(function(req, res){
     if(!checkAccess(req)){
