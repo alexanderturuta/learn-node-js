@@ -1,48 +1,57 @@
 var express = require('express');
+var config = require('config')
+var path = require('path');
 
 var app = express();
-app.set('port', 3000);
-
-var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var errorHandler = require('errorhandler');
+var isDevelopment = app.get('env') == 'development';
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
+var favicon = require('serve-favicon');
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-app.use(function (req, res, next) {
-  if(req.url == '/'){
-    res.end('Hello');
-  } else {
-    next();
-  }
-});
-
-app.use(function (req, res, next) {
-  if(req.url == '/index'){
-    res.end('index');
-  } else{
-    next()
-  }
-});
-
-app.use(function (req, res, next) {
-  if(req.url == '/forbidden'){
-    next(new Error('oops, denied'))
-  } else{
-    next()
-  }
-});
-
-app.use(function (req, res) {
-  res.status(404)
-      .send('Page Not Found')
-});
-
-if(app.get('env') == 'development'){
-  app.use(errorHandler());
+if(isDevelopment){
+  app.use(logger('dev'));
+} else {
+  app.use(logger('default'))
 }
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+var routes = require('./routes');
+var users = require('./routes/users');
+
+
+app.use('/', routes);
+app.use('/users', users);
+
+//static
+app.use(require('less-middleware')(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
+
+var errorHandler = require('errorhandler');
+if(isDevelopment){
+  app.use(errorHandler());
+} else{
+  app.use(function (err, req, res, next) {
+      res.status(500).send('Internal Server Error');
+  })
+}
+
+app.use(function (err, req, res, next) {
+  if(!isDevelopment){
+    res.status(500).send('Internal Server Error');
+  }
+})
+
 /*app.use(function (err, req, res, next) {
   if(app.get('env') == 'development'){
     errorHandler();
@@ -55,19 +64,6 @@ if(app.get('env') == 'development'){
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(require('less-middleware')(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
@@ -103,6 +99,8 @@ app.use(function(err, req, res, next) {
   });
 });
 */
-app.listen(app.get('port'));
+app.listen(config.get('port'), function () {
+  console.log('Listening on port: %s', config.get('port'));
+});
 
 module.exports = app;
