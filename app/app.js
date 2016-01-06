@@ -6,6 +6,7 @@ var app = express();
 var logger = require('morgan');
 var isDevelopment = app.get('env') == 'development';
 // view engine setup
+app.engine('ejs', require('ejs-locals'))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 

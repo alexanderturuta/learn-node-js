@@ -1,0 +1,22 @@
+{
+  "name": "vendor",
+  "homepage": "https://github.com/alexanderturuta/learn-node-js",
+  "authors": [
+    "Alex Turuta"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "jquery": "~2.1.4"
+  }
+}
