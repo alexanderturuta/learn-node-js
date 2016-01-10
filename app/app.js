@@ -1,6 +1,7 @@
 var express = require('express');
 var config = require('./config')
 var path = require('path');
+var HttpError = require('./error').HttpError;
 
 var app = express();
 var logger = require('morgan');
@@ -27,6 +28,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
+app.use(require('./middleware/sendHttpError'));
+
 var routes = require('./routes');
 var users = require('./routes/users');
 
@@ -41,25 +44,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 var errorHandler = require('errorhandler');
 if(isDevelopment){
   app.use(errorHandler());
-} else{
+} else {
   app.use(function (err, req, res, next) {
-      res.status(500).send('Internal Server Error');
+      if(typeof err == 'number'){
+          err = new HttpError(err);
+      }
+
+      if(err instanceof HttpError){
+          res.sendHttpError(err);
+      } else {
+          console.error(err);
+          err = new HttpError(500);
+          res.sendHttpError(err);
+      }
   })
 }
-
-app.use(function (err, req, res, next) {
-  if(!isDevelopment){
-    res.status(500).send('Internal Server Error');
-  }
-})
-
-/*app.use(function (err, req, res, next) {
-  if(app.get('env') == 'development'){
-    errorHandler();
-  } else {
-    res.status(500).send('Internal Server Error');
-  }
-});*/
 
 /*
 var routes = require('./routes/index');
