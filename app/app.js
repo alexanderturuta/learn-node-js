@@ -1,7 +1,9 @@
 var express = require('express');
-var config = require('./config')
+var config = require('./config');
 var path = require('path');
 var HttpError = require('./error').HttpError;
+var session = require('express-session');
+var mongoose = require('./libs/mongoose');
 
 var app = express();
 var logger = require('morgan');
@@ -27,6 +29,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
+
+var MongoStore = require('connect-mongo')(session);
+
+app.use(session({
+    secret: config.get('session:secret'),
+    saveUninitialized: false, // don't create session until something stored
+    resave: false, //don't save session if unmodified
+    key: config.get('session:sid'),
+    cookie: config.get('session:cookie'),
+    store: new MongoStore({
+        url: config.get('mongoose:uri'),
+        autoRemove: 'native'
+    })
+})); //connect.sid
+
+app.use(function (req, res, next) {
+    req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
+    res.send("visits "+ req.session.numberOfVisits)
+})
 
 app.use(require('./middleware/sendHttpError'));
 
