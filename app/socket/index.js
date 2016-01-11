@@ -51,10 +51,9 @@ module.exports = function(server) {
             },
             function (session, callback) {
                 if(!session) {
-                    callback(new HttpError(401, 'No session'));
+                    return callback(new HttpError(401, 'No session'));
                 }
                 socket.handshake.session = session;
-                console.log(session)
                 LoadUser(session, callback);
             },
             function (user, callback) {
@@ -77,10 +76,13 @@ module.exports = function(server) {
         });
     }
 
+    io.sockets.on('session:reload', function (sid) {
+        console.log('sid: ' + sid)
+    })
+
     io.sockets.on('connection', function (socket) {
 
         var username = socket.handshake.user.get('username');
-        console.log(username);
 
         socket.broadcast.emit('join', username);
 

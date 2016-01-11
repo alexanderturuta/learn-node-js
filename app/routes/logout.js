@@ -5,8 +5,10 @@ router.post('/', function(req, res, next) {
     var sid = req.session.id;
     var io = req.app.get('io');
 
-    req.session.destroy();
-    res.redirect('/')
+    req.session.destroy(function () {
+        io.sockets.emit('session:reload');
+        res.redirect('/')
+    });
 });
 
 module.exports = router;

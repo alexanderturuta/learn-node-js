@@ -8,7 +8,7 @@
         <label for="input-username" class="col-lg-2 control-label">Name</label>
 
         <div class="col-lg-10">
-            <input name="username" value="" type="text" class="form-control" id="input-username" placeholder="Name">
+            <input name="username" value="" type="text" class="form-control" id="input-username" autofocus="true" placeholder="Name">
         </div>
     </div>
     <div class="form-group">
@@ -46,6 +46,7 @@
                     window.location.href = "/chat";
                 },
                 403: function(jqXHR) {
+                    debugger
                     var error = JSON.parse(jqXHR.responseText);
                     $('.error', form).html(error.message);
                 }

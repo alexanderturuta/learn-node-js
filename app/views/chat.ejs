@@ -36,6 +36,9 @@
             form.on('submit', sendMessage);
             input.prop('disabled', false);
         })
+        .on('session:reload', function () {
+            location.href = '/'
+        })
         .on('disconnect', function () {
             printStatus('connection has lost');
             form.off('submit', sendMessage);

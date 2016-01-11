@@ -16,7 +16,7 @@ router.post('/', function (req, res, next) {
     User.authorize(username, password, function (err, user) {
         if(err) {
             if(err instanceof AuthError){
-                return next(403, new HttpError(403, err.message));
+                return next(new HttpError(403, err.message));
             } else {
                 return next(err);
             }
