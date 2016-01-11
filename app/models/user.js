@@ -1,4 +1,6 @@
 var crypto = require('crypto');
+var async = require('async');
+var util = require('util');
 
 var mongoose = require('./../libs/mongoose'),
     Schema = mongoose.Schema;
@@ -39,8 +41,49 @@ schema.virtual('password')
         return this._plainPassword;
     });
 
+schema.statics.authorize = function(username, password, callback){
+    var User = this;
+    async.waterfall([
+        function (callback) {
+            User.findOne({username: username}, callback)
+        },
+        function (user, callback) {
+            if(user){
+                console.log('found')
+                console.log(user)
+                if(user.checkPassword(password)){
+                    console.log('checked')
+                    callback(null, user);
+                } else {
+                    console.log('bad')
+                    callback(new AuthError('Incorrect password'));
+                }
+            } else {
+                var user = new User({ username: username, password: password });
+                user.save(function (err) {
+                    if(err) return callback(err);
+                    callback(null, user);
+                })
+            }
+        }
+    ], callback);
+};
+
 schema.methods.checkPassword = function (password) {
     return this.encryptPassword(password) === this.hashedPassword;
 };
 
 exports.User = mongoose.model('User', schema);
+
+function AuthError(message){
+    Error.apply(this, arguments);
+    Error.captureStackTrace(this, AuthError);
+
+    this.message = message;
+}
+
+util.inherits(AuthError, Error);
+
+AuthError.prototype.name = 'AuthError';
+
+exports.AuthError = AuthError;

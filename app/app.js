@@ -44,19 +44,21 @@ app.use(session({
     })
 })); //connect.sid
 
-app.use(function (req, res, next) {
-    req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
-    res.send("visits "+ req.session.numberOfVisits)
-})
-
 app.use(require('./middleware/sendHttpError'));
+app.use(require('./middleware/loadUser'));
 
 var routes = require('./routes');
 var users = require('./routes/users');
+var login = require('./routes/login');
+var chat = require('./routes/chat');
+var logout = require('./routes/logout');
 
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/login', login);
+app.use('/chat', chat);
+app.use('/logout', logout);
 
 //static
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
