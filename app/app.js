@@ -89,15 +89,6 @@ server.listen(config.get('port'), function () {
   console.log('Listening on port: %s', config.get('port'));
 });
 
-var io = require('socket.io').listen(server);
-
-io.sockets.on('connection', function (socket) {
-    socket.on('message', function (text, cb) {
-        console.log(text)
-        socket.broadcast.emit('message', text);
-        cb('data');
-    });
-});
-
+require('./socket')(server);
 
 module.exports = app;
