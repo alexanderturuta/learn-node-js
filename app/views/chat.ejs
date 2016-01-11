@@ -3,4 +3,36 @@
 
 <p class="lead">Chat is going to be here</p>
 
+<script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
+
 <p>Welcome, <%=user.get('username')%></p>
+
+<div id="room">
+    <ul></ul>
+    <form action="">
+        <input class="form-control" type="text" autocomplete="off" autofocus placeholder="Message"/>
+    </form>
+</div>
+
+<script>
+    var socket = io.connect();
+
+    var form = $('#room form'),
+            ul = $('#room ul');
+    
+    form.submit(function () {
+        var input = $(this).find(':input');
+        var text = input.val();
+        input.val('');
+        socket.emit('message', text, function (data) {
+            console.log(data)
+            $('<li>', {text: text}).appendTo(ul);
+        });
+        console.log(text);
+        return false;
+    });
+
+    socket.on('message', function (text) {
+        $('<li>', {text: text}).appendTo(ul);
+    });
+</script>
