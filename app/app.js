@@ -7,10 +7,11 @@ var mongoose = require('./libs/mongoose');
 
 var app = express();
 var http = require('http');
-var logger = require('morgan');
-var isDevelopment = app.get('env') == 'development';
+var morgan = require('morgan');
+var logger = morgan('combined');
+var isDevelopment = false && app.get('env') == 'development';
 // view engine setup
-app.engine('ejs', require('ejs-locals'))
+app.engine('ejs', require('ejs-locals'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -18,11 +19,7 @@ var favicon = require('serve-favicon');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-if(isDevelopment){
-  app.use(logger('dev'));
-} else {
-  app.use(logger('default'))
-}
+app.use(logger);
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -31,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-var MongoStore = require('connect-mongo')(session);
+var sessionStore = require('./libs/sessionStore');
 
 app.use(session({
     secret: config.get('session:secret'),
@@ -39,10 +36,7 @@ app.use(session({
     resave: false, //don't save session if unmodified
     key: config.get('session:sid'),
     cookie: config.get('session:cookie'),
-    store: new MongoStore({
-        url: config.get('mongoose:uri'),
-        autoRemove: 'native'
-    })
+    store: sessionStore
 })); //connect.sid
 
 app.use(require('./middleware/sendHttpError'));
@@ -89,6 +83,7 @@ server.listen(config.get('port'), function () {
   console.log('Listening on port: %s', config.get('port'));
 });
 
-require('./socket')(server);
+var io = require('./socket')(server);
+app.set('io', io);
 
 module.exports = app;

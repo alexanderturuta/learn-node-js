@@ -1,8 +1,6 @@
 <% layout('./layout/page') -%>
 <% block('title', "Chat") -%>
 
-<p class="lead">Chat is going to be here</p>
-
 <script src="/socket.io/socket.io.js"></script>
 
 <p>Welcome, <%=user.get('username')%></p>
@@ -24,8 +22,14 @@
             input = $('#room input');
 
     socket
-        .on('message', function (text) {
-            printMessage(text);
+        .on('message', function (username, text) {
+            printMessage(username + ': ' + text);
+        })
+        .on('leave', function (username) {
+            printStatus(username + ' has left');
+        })
+        .on('join', function (username) {
+            printStatus(username + ' has joined')
         })
         .on('connect', function () {
             printStatus('connection is established');
@@ -37,16 +41,22 @@
             form.off('submit', sendMessage);
             input.prop('disabled', true);
             setTimeout(reconnect, 500);
+        })
+        .on('logout', function () {
+            location.href = '/'
+        })
+        .on('error', function (reason) {
+            setTimeout(reconnect, 500);
         });
 
-    function sendMessage(e){
-        e.preventDefault();
+    function sendMessage(){
         var text = input.val();
         socket.emit('message', text, function () {
-            printMessage(text);
+            printMessage('me: ' + text);
         });
 
         input.val('');
+        return false;
     }
 
     function printMessage(message){

@@ -49,13 +49,9 @@ schema.statics.authorize = function(username, password, callback){
         },
         function (user, callback) {
             if(user){
-                console.log('found')
-                console.log(user)
                 if(user.checkPassword(password)){
-                    console.log('checked')
                     callback(null, user);
                 } else {
-                    console.log('bad')
                     callback(new AuthError('Incorrect password'));
                 }
             } else {
